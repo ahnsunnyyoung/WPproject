@@ -10,7 +10,8 @@ block hero-unit
     br
     .container
       .text-center
-        img.d-inline-block.align-top(src="/images/logo.png", alt="logo", width="50", height="50")
+        br
+        img.d-inline-block.align-top(src="/images/logo.png", alt="logo", width="40", height="40")
         h3.whereTogo 어디로 날아갈까요?
         .d-flex.justify-content-center
           .p-2.bd-highlight
@@ -22,8 +23,22 @@ block hero-unit
         
         
       
-block content
+block countries
   .container
+   .d-flex.justify-content-around
+    .p-2.bd-highlight.text-center
+      a(href="#") 라오스
+        img.img-size(src="/images/laos.jpg", alt="라오스")
+    .p-2.bd-highlight.text-center
+      a(href="#") 파리
+        img.img-size(src="/images/paris.jpg", alt="파리")
+    .p-2.bd-highlight.text-center
+      a(href="#") 하노이
+        img.img-size(src="/images/hanoi.jpg", alt="하노이")
+    .p-2.bd-highlight.text-center
+      a(href="#") 홍콩
+        img.img-size(src="/images/hongkong.jpg", alt="홍콩")
+
   
     
 

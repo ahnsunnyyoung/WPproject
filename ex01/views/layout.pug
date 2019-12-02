@@ -12,7 +12,7 @@ html
   body
     block top-nav
       include ./includes/topnav
-      
+
     block hero-unit
     if flashMessages
       each texts, type in flashMessages
@@ -22,7 +22,13 @@ html
               | #{msg} 
             button.close(type='button', data-dismiss='alert', aria-label='close')
               span(aria-hidden='true') &times;
-    block content
+    block countries
+    br
+    br
+    hr
+    br
+    block tourItems
+      include ./tourItems
 
     block footer
       include ./includes/footer

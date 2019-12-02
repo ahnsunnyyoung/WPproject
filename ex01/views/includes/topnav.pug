@@ -1,10 +1,9 @@
-
 .header.clearfix.fixed-top.text-center
   img(src="/images/title.png", alt="title", width="200", height="100")
   nav.navbar.navbar-expand-lg.navbar-light.bg-light
     .container
       a.navbar-brand(href="/")  TUON
-        img.d-inline-block.align-top(src="/images/logo.png", alt="logo", width="30", height="30")
+        img.d-inline-block.align-top(src="/images/logo.png", alt="logo", width="20", height="20")
       button.navbar-toggler(type="button", data-toggle="collapse", data-target="#navbarsExampleDefault", aria-controls="navbarsExampleDefault", aria-expanded="false", aria-label="Toggle navigation")
         span.navbar-toggler-icon
 
@@ -23,5 +22,7 @@
               a.nav-link(href=`/users/${currentUser._id}`) My Profile
             li.nav-item
               a.nav-link(href='/signout') Signout
+
+  hr
         
           

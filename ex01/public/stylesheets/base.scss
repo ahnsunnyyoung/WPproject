@@ -2,11 +2,16 @@
 
 body {
   font-family: 'Nanum Gothic', 'Roboto', cursive;
-  background: url('/images/bg.jpg') no-repeat left center;
-  padding-top: 1em;
+  background: url('/images/bg.jpg') no-repeat;
   & > .main-content {
     min-height: 400px;
   }
+}
+
+.img-size{
+  height: 200px;
+  width: 300px;
+  border-radius: 20px;
 }
 
 a:hover {
@@ -33,13 +38,13 @@ a:hover {
   border-top: .05rem solid #e5e5e5;
 }
 
-.main-title {
-  font-family: 'Raleway';
-  font-size: 2.5rem;
-  margin: 1em 0 0.5em 0;
-  border-bottom: 1px solid #eee;
-  color: rgb(190, 190, 190);
-}
+// .main-title {
+//   font-family: 'Raleway';
+//   font-size: 2.5rem;
+//   margin: 1em 0 0.5em 0;
+//   border-bottom: 1px solid #eee;
+//   color: rgb(190, 190, 190);
+// }
 
 .header > .navbar {
   background-color: rgb(222, 253, 253)!important;
