@@ -44,13 +44,13 @@ router.put('/:id', catchErrors(async (req, res, next) => {
 
   await item.save();
   req.flash('success', 'Successfully updated');
-  res.redirect('index');
+  res.redirect('/');
 }));
 
 router.delete('/:id', needAuth, catchErrors(async (req, res, next) => {
   await Item.findOneAndRemove({_id: req.params.id});
   req.flash('success', 'Successfully deleted');
-  res.redirect('index');
+  res.redirect('/');
 }));
 
 router.post('/', needAuth, catchErrors(async (req, res, next) => {
@@ -61,7 +61,7 @@ router.post('/', needAuth, catchErrors(async (req, res, next) => {
   });
   await item.save();
   req.flash('success', 'Successfully posted');
-  res.redirect('index');
+  res.redirect('/');
 }));
 
 router.post('/:id/comments', needAuth, catchErrors(async (req, res, next) => {

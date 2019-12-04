@@ -34,60 +34,35 @@ block content
         img.img-size(src="/images/hongkong.jpg", alt="홍콩")
 
     
+
+
+    
   br
   br
   hr
   br
   .container
-    .d-flex.justify-content-around
-      .p-2.bd-highlight.text-center.card
-        img.card-img-top(src="...",alt="...")
-        .card-body
-          h5.card-title Card title
-          p.card-text Some quick example text to build on the card title and make up the bulk of the card's content.
-          a.btn.btn-primary(href="#") Go somewhere
-      .p-2.bd-highlight.text-center.card
-        img.card-img-top(src="...",alt="...")
-        .card-body
-          h5.card-title Card title
-          p.card-text Some quick example text to build on the card title and make up the bulk of the card's content.
-          a.btn.btn-primary(href="#") Go somewhere
-      .p-2.bd-highlight.text-center.card
-        img.card-img-top(src="...",alt="...")
-        .card-body
-          h5.card-title Card title
-          p.card-text Some quick example text to build on the card title and make up the bulk of the card's content.
-          a.btn.btn-primary(href="#") Go somewhere
-      .p-2.bd-highlight.text-center.card
-        img.card-img-top(src="...",alt="...")
-        .card-body
-          h5.card-title Card title
-          p.card-text Some quick example text to build on the card title and make up the bulk of the card's content.
-          a.btn.btn-primary(href="#") Go somewhere
-    
-    br
-    br
+
+    h1.main-title 
+      | items
+      if items.total > 0
+        .small Total #{items.total} item(s)
+
+    if items.total <= 0 
+      .alert.alert-info No items available yet
+    else
+      .d-flex.justify-content-around
+        each item in items.docs
+          .p-2.bd-highlight.text-center.card.card-image
+            img.card-img-top(src="...",alt="...")
+            .card-body
+            h5.card-title= item.itemName
+            a.btn.btn-primary(href=`/items/${item.id}`) more
+            include items/_item
+
+      +paginate(items, '/items', query)
+
     hr
-    br
-    .container
-
-      h1.main-title 
-        | items
-        if items.total > 0
-          .small Total #{items.total} item(s)
-
-      if items.total <= 0 
-        .alert.alert-info No items available yet
-      else
-        .items
-          each item in items.docs
-            .item
-              a.title(href=`/items/${item.id}`)= item.itemName
-              include items/_item
-
-        +paginate(items, '/items', query)
-
-      hr
-      a.btn.btn-primary(href='/items/new') New Item
+    a.btn.btn-primary(href='/items/new') New Item
     
 
