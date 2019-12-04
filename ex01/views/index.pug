@@ -1,7 +1,12 @@
 extends layout
 
 block hero-unit
-    .container
+
+include ../includes/_paginate
+ 
+      
+block content
+  .container
       .text-center
         br
         img.d-inline-block.align-top(src="/images/logo.png", alt="logo", width="40", height="40")
@@ -12,11 +17,7 @@ block hero-unit
             form.form-inline.search-input-group(action='/', method='GET')
           .p-2.bd-highlight
             input.form-control.mr-sm-2(type='text', name='term', placeholder='Search', aria-label='Search', value=term)
-            
-        
-        
-      
-block content
+
   .container
    .d-flex.justify-content-around
     .p-2.bd-highlight.text-center
@@ -64,5 +65,29 @@ block content
           p.card-text Some quick example text to build on the card title and make up the bulk of the card's content.
           a.btn.btn-primary(href="#") Go somewhere
     
+    br
+    br
+    hr
+    br
+    .container
+
+      h1.main-title 
+        | items
+        if items.total > 0
+          .small Total #{items.total} item(s)
+
+      if items.total <= 0 
+        .alert.alert-info No items available yet
+      else
+        .items
+          each item in items.docs
+            .item
+              a.title(href=`/items/${item.id}`)= item.itemName
+              include _item
+
+        +paginate(items, '/items', query)
+
+      hr
+      a.btn.btn-primary(href='/items/new') New Item
     
 

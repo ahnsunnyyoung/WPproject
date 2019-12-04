@@ -14,8 +14,10 @@ function needAuth(req, res, next) {
 function validateForm(form, options) {
   var name = form.name || "";
   var email = form.email || "";
+  var type = form.type || "";
   name = name.trim();
   email = email.trim();
+  type = type.trim();
 
   if (!name) {
     return 'Name is required.';
@@ -35,6 +37,10 @@ function validateForm(form, options) {
 
   if (form.password.length < 6) {
     return 'Password must be at least 6 characters.';
+  }
+
+  if (!type) {
+    return 'Type is required.';
   }
 
   return null;
@@ -140,6 +146,7 @@ router.post('/', (req, res, next) => {
     var newUser = new User({
       name: req.body.name,
       email: req.body.email,
+      type: req.body.type
     });
     newUser.password = req.body.password;
 

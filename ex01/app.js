@@ -12,7 +12,7 @@ var mongoose   = require('mongoose');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
-var boards = require('./routes/boards');
+var boards = require('./routes/items');
 
 var app = express();
 
@@ -79,7 +79,7 @@ app.use(function(req, res, next) {
 // Route
 app.use('/', index);
 app.use('/users', users);
-app.use('/boards', boards);
+app.use('/items', boards);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -1,7 +1,7 @@
 const express = require('express');
-const Board = require('../models/board');
+const Item = require('../models/item');
 const User = require('../models/user'); 
-const Comment = require('../models/comment'); 
+const Comment = require('../models/review'); 
 const catchErrors = require('../lib/async-error');
 
 const router = express.Router();
@@ -29,83 +29,83 @@ router.get('/', catchErrors(async (req, res, next) => {
       {content: {'$regex': term, '$options': 'i'}}
     ]};
   }
-  const boards = await Board.paginate(query, {
+  const items = await Item.paginate(query, {
     sort: {createdAt: -1}, 
     populate: 'uid', 
     page: page, limit: limit
   });
-  res.render('boards/index', {boards: boards, query: req.query});
+  res.render('items/index', {items: items, query: req.query});
 }));
 
 router.get('/new', needAuth, (req, res, next) => {
-  res.render('boards/new', {board: {}});
+  res.render('items/new', {item: {}});
 });
 
 router.get('/:id/edit', needAuth, catchErrors(async (req, res, next) => {
-  const board = await Board.findById(req.params.id);
-  res.render('boards/edit', {board: board});
+  const item = await Item.findById(req.params.id);
+  res.render('items/edit', {item: item});
 }));
 
 router.get('/:id', catchErrors(async (req, res, next) => {
-  const board = await Board.findById(req.params.id).populate('uid');
-  const comments = await Comment.find({board: board.id}).populate('uid');
-  await board.save();
-  res.render('boards/show', {board: board, comments: comments});
+  const item = await Item.findById(req.params.id).populate('uid');
+  const comments = await Comment.find({item: item.id}).populate('uid');
+  await item.save();
+  res.render('items/show', {item: item, comments: comments});
 }));
 
 router.put('/:id', catchErrors(async (req, res, next) => {
-  const board = await Board.findById(req.params.id);
+  const item = await Item.findById(req.params.id);
 
-  if (!board) {
+  if (!item) {
     req.flash('danger', 'Not exist post');
     return res.redirect('back');
   }
-  board.title = req.body.title;
-  board.content = req.body.content;
+  item.title = req.body.title;
+  item.content = req.body.content;
 
-  await board.save();
+  await item.save();
   req.flash('success', 'Successfully updated');
-  res.redirect('/boards');
+  res.redirect('/items');
 }));
 
 router.delete('/:id', needAuth, catchErrors(async (req, res, next) => {
-  await Board.findOneAndRemove({_id: req.params.id});
+  await Item.findOneAndRemove({_id: req.params.id});
   req.flash('success', 'Successfully deleted');
-  res.redirect('/boards');
+  res.redirect('/items');
 }));
 
 router.post('/', needAuth, catchErrors(async (req, res, next) => {
   const user = req.session.user;
-  var board = new Board({
+  var item = new Item({
     title: req.body.title,
     uid: user._id,
     content: req.body.content,
   });
-  await board.save();
+  await item.save();
   req.flash('success', 'Successfully posted');
-  res.redirect('/boards');
+  res.redirect('/items');
 }));
 
 router.post('/:id/comments', needAuth, catchErrors(async (req, res, next) => {
   const user = req.session.user;
-  const board = await Board.findById(req.params.id);
+  const item = await Item.findById(req.params.id);
 
-  if (!board) {
-    req.flash('danger', 'Not exist board');
+  if (!item) {
+    req.flash('danger', 'Not exist item');
     return res.redirect('back');
   }
 
   var comment = new Comment({
     uid: user._id,
-    board: board._id,
+    item: item._id,
     content: req.body.content
   });
   await comment.save();
-  board.numComments++;
-  await board.save();
+  item.numComments++;
+  await item.save();
 
   req.flash('success', 'Successfully commented');
-  res.redirect(`/boards/${req.params.id}`);
+  res.redirect(`/items/${req.params.id}`);
 }));
 
 
