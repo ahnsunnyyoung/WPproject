@@ -2,7 +2,7 @@ extends layout
 
 block hero-unit
 
-include ../includes/_paginate
+include includes/_paginate
  
       
 block content
@@ -83,7 +83,7 @@ block content
           each item in items.docs
             .item
               a.title(href=`/items/${item.id}`)= item.itemName
-              include _item
+              include items/_item
 
         +paginate(items, '/items', query)
 

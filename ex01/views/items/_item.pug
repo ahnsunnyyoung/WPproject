@@ -1,0 +1,17 @@
+.content= item.content
+//- .keys.badges
+//-   each key in item.keys
+//-     span.badge.badge-phill.badge-secondary= key
+    | 
+.row
+  .col-sm
+    .numbers.
+      #[span.number.num-votes= item.numLikes] likes,
+      #[span.number.num-answers= item.numAnswers] answers,
+      #[span.number.num-views= item.numReads] reads
+  .col-sm
+    .author
+      | asked on #{moment(item.createdAt).format('YYYY-MM-DD')}
+      if item.author
+        | 
+        | by #[a(href=`/users/${item.author.id}`)= item.author.name] 

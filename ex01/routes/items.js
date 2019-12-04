@@ -1,6 +1,6 @@
 const express = require('express');
 const Item = require('../models/item');
-const User = require('../models/user'); 
+// const User = require('../models/user'); 
 const Comment = require('../models/review'); 
 const catchErrors = require('../lib/async-error');
 
@@ -16,27 +16,6 @@ function needAuth(req, res, next) {
   }
 }
 
-/* GET boards listing. */
-router.get('/', catchErrors(async (req, res, next) => {
-  const page = parseInt(req.query.page) || 1;
-  const limit = parseInt(req.query.limit) || 10;
-
-  var query = {};
-  const term = req.query.term;
-  if (term) {
-    query = {$or: [
-      {title: {'$regex': term, '$options': 'i'}},
-      {content: {'$regex': term, '$options': 'i'}}
-    ]};
-  }
-  const items = await Item.paginate(query, {
-    sort: {createdAt: -1}, 
-    populate: 'uid', 
-    page: page, limit: limit
-  });
-  res.render('items/index', {items: items, query: req.query});
-}));
-
 router.get('/new', needAuth, (req, res, next) => {
   res.render('items/new', {item: {}});
 });
@@ -47,8 +26,8 @@ router.get('/:id/edit', needAuth, catchErrors(async (req, res, next) => {
 }));
 
 router.get('/:id', catchErrors(async (req, res, next) => {
-  const item = await Item.findById(req.params.id).populate('uid');
-  const comments = await Comment.find({item: item.id}).populate('uid');
+  const item = await Item.findById(req.params.id);
+  const comments = await Comment.find({item: item.id});
   await item.save();
   res.render('items/show', {item: item, comments: comments});
 }));
@@ -60,30 +39,29 @@ router.put('/:id', catchErrors(async (req, res, next) => {
     req.flash('danger', 'Not exist post');
     return res.redirect('back');
   }
-  item.title = req.body.title;
-  item.content = req.body.content;
+  item.itemName = req.body.itemName;
+  item.intro = req.body.intro;
 
   await item.save();
   req.flash('success', 'Successfully updated');
-  res.redirect('/items');
+  res.redirect('index');
 }));
 
 router.delete('/:id', needAuth, catchErrors(async (req, res, next) => {
   await Item.findOneAndRemove({_id: req.params.id});
   req.flash('success', 'Successfully deleted');
-  res.redirect('/items');
+  res.redirect('index');
 }));
 
 router.post('/', needAuth, catchErrors(async (req, res, next) => {
   const user = req.session.user;
   var item = new Item({
-    title: req.body.title,
-    uid: user._id,
-    content: req.body.content,
+    itemName: req.body.itemName,
+    intro: req.body.intro
   });
   await item.save();
   req.flash('success', 'Successfully posted');
-  res.redirect('/items');
+  res.redirect('index');
 }));
 
 router.post('/:id/comments', needAuth, catchErrors(async (req, res, next) => {
