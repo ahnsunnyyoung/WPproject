@@ -10,6 +10,11 @@ block content
 
         h4.card-text=item.intro
 
+        .buttons
+          a.btn.btn-outline-secondary(href=`/items/${item.id}/edit`) Edit
+          | 
+          a.btn.btn-outline-danger.delete-btn(href="#", data-url=`/items/${item.id}?_method=delete`) Delete
+
 
 
 
@@ -27,6 +32,16 @@ block content
         a.btn.btn-light(href='#') 위시리스트에 담기
         .d-flex.justify-content-center
           img.p-2.text-center.card-img-top.logo-image(src="../images/price_logo.png",alt="로고")
+
+  script.
+    $(function() {
+      $('.delete-btn').click(function() {
+        if (confirm('Are you sure to delete?')) {
+          location = $(this).data('url');
+        }
+        return false;
+      });
+    });
   //- .container
   //-   h1.main-title= item.title
 
