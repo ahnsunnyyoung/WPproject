@@ -1,9 +1,17 @@
 .form-group
   label(for="itemName") Item Name
   input.form-control(type="text", name="itemName", placeholder="Put your item name.", value=item.itemName)
+  .form-group
+  label(for="price") Price
+  input.form-control(type="number", name="price", placeholder="Put your item price.", value=item.price)
 .form-group
   label(for="intro") intro
   textarea.form-control(name="intro", rows="5")= item.intro
+.form(action="/upload/create",method="post",enctype="multipart/form-data")
+    input(type="file", name="imgFile")
+    input(type="submit",value="파일 업로드하기")
+
+
 //- .form-group
 //-   label(for="maxNum") maxNum
 //-   input.form-control(type="number", name="maxNum", value=item.maxNum)

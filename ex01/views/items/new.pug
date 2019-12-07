@@ -2,9 +2,10 @@ extends ../layout
 
 block content
   .container
-    h1.main-title New Item
-    form(action="/items", method="POST")
-      include _form
-      button.btn.btn-outline-primary(type="submit") Post Your Item
+    .text-center
+      h3.title 투어 등록
+      form(action="/items", method="POST")
+        include _form
+        button.btn.btn-outline-primary(type="submit") Post Your Item
 
     

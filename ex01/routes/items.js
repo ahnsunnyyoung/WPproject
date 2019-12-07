@@ -40,6 +40,7 @@ router.put('/:id', catchErrors(async (req, res, next) => {
     return res.redirect('back');
   }
   item.itemName = req.body.itemName;
+  item.price = req.bodey.price;
   item.intro = req.body.intro;
 
   await item.save();
@@ -57,6 +58,7 @@ router.post('/', needAuth, catchErrors(async (req, res, next) => {
   const user = req.session.user;
   var item = new Item({
     itemName: req.body.itemName,
+    price: req.body.price,
     intro: req.body.intro
   });
   await item.save();

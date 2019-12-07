@@ -6,7 +6,7 @@ var schema = new Schema({
   itemName: { type: String, trim: true, required: true},
   // maxNum: {type: String, trim: true, required: true},
   intro: {type: String, trim: true, required: true},
-  // price: {type: Number, default: 0},
+  price: {type: Number, default: 0},
   // numComments: {type: Number, default: 0},
   // numReads: {type: Number, default: 0},
   // startDay: {type: Date, default: Date.now},

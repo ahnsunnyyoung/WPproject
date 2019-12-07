@@ -2,37 +2,63 @@ extends ../layout
 
 block content
   .container
-    h1.main-title= item.title
-
-    .item.show
-    include _item
-
-      .buttons
-        button.btn.btn-primary #[i.fa.fa-thumbs-up] Like
-        | 
-        a.btn.btn-outline-secondary(href=`/items/${item.id}/edit`) Edit
-        | 
-        a.btn.btn-outline-danger.delete-btn(href="#", data-url=`/items/${item.id}?_method=delete`) Delete
+    .d-flex.justify-content-center
+      .p-2.bd-highlight.text-left.main-item-show
+        h2.card-title=item.itemName
       
-    if item.numreviews > 0
-      hr
-      h3 #{item.numreviews} review(s)
-      .reviews.show
-        each review in reviews
-          include _review
+        hr
 
-    form(action=`/items/${item.id}/reviews`, method='POST')
-      .form-group
-        label(for='review') Your review
-        textarea.form-control(name="content", rows="5")
-      button.btn.btn-primary(type="submit") Post Your review
+        h4.card-text=item.intro
 
-  script.
-    $(function() {
-      $('.delete-btn').click(function() {
-        if (confirm('Are you sure to delete?')) {
-          location = $(this).data('url');
-        }
-        return false;
-      });
-    });
+
+
+
+
+
+
+
+
+
+
+      .p-2.bd-highlight.text-left.card.card-image.position-fixed.price-item-show
+        h3.card-body.card-title=item.price + '원'
+        a.btn.btn-primary(href='#') 예약하기
+        br
+        a.btn.btn-light(href='#') 위시리스트에 담기
+        .d-flex.justify-content-center
+          img.p-2.text-center.card-img-top.logo-image(src="../images/price_logo.png",alt="로고")
+  //- .container
+  //-   h1.main-title= item.title
+
+  //-   .item.show
+  //-   include _item
+
+  //-     .buttons
+  //-       button.btn.btn-primary #[i.fa.fa-thumbs-up] Like
+  //-       | 
+  //-       a.btn.btn-outline-secondary(href=`/items/${item.id}/edit`) Edit
+  //-       | 
+  //-       a.btn.btn-outline-danger.delete-btn(href="#", data-url=`/items/${item.id}?_method=delete`) Delete
+      
+  //-   if item.numreviews > 0
+  //-     hr
+  //-     h3 #{item.numreviews} review(s)
+  //-     .reviews.show
+  //-       each review in reviews
+  //-         include _review
+
+  //-   form(action=`/items/${item.id}/reviews`, method='POST')
+  //-     .form-group
+  //-       label(for='review') Your review
+  //-       textarea.form-control(name="content", rows="5")
+  //-     button.btn.btn-primary(type="submit") Post Your review
+
+  //- script.
+  //-   $(function() {
+  //-     $('.delete-btn').click(function() {
+  //-       if (confirm('Are you sure to delete?')) {
+  //-         location = $(this).data('url');
+  //-       }
+  //-       return false;
+  //-     });
+  //-   });

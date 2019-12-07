@@ -8,6 +8,7 @@ var router = express.Router();
 
 /* GET boards listing. */
 router.get('/', catchErrors(async (req, res, next) => {
+  console.log("HERE", req.query, req.body);
   const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 5;
 

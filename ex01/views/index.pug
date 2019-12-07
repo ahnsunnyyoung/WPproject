@@ -60,9 +60,10 @@ block content
             a.btn.btn-primary(href=`/items/${item.id}`) more
             include items/_item
 
-      +paginate(items, '/items', query)
+      +paginate(items, '/', query)
 
-    hr
+   
     a.btn.btn-primary(href='/items/new') New Item
+    hr
     
 
