@@ -11,6 +11,7 @@ var schema = new Schema({
   // numReads: {type: Number, default: 0},
   // startDay: {type: Date, default: Date.now},
   // endDay: {type: Date, default: Date.now},
+  img: {type: String},
   createdAt: {type: Date, default: Date.now}
 }, {
   toJSON: { virtuals: true},

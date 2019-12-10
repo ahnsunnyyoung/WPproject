@@ -7,6 +7,7 @@
   },
   "dependencies": {
     "async-error-catcher": "^1.2.0",
+    "aws-sdk": "^2.586.0",
     "body-parser": "~1.19.0",
     "connect-flash": "^0.1.1",
     "cookie-parser": "~1.4.4",
@@ -22,6 +23,7 @@
     "node-sass": "^4.12.0",
     "node-sass-middleware": "0.11.0",
     "pug": "2.0.4",
-    "serve-favicon": "~2.5.0"
+    "serve-favicon": "~2.5.0",
+    "uuid": "^3.3.3"
   }
 }

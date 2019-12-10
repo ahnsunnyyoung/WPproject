@@ -3,8 +3,9 @@ const Item = require('../models/item');
 // const User = require('../models/user'); 
 const Comment = require('../models/review'); 
 const catchErrors = require('../lib/async-error');
-
 const router = express.Router();
+
+
 
 // 동일한 코드가 users.js에도 있습니다. 이것은 나중에 수정합시다.
 function needAuth(req, res, next) {
@@ -42,6 +43,7 @@ router.put('/:id', catchErrors(async (req, res, next) => {
   item.itemName = req.body.itemName;
   item.price = req.bodey.price;
   item.intro = req.body.intro;
+  item.img = req.body.img;
 
   await item.save();
   req.flash('success', 'Successfully updated');
@@ -59,7 +61,8 @@ router.post('/', needAuth, catchErrors(async (req, res, next) => {
   var item = new Item({
     itemName: req.body.itemName,
     price: req.body.price,
-    intro: req.body.intro
+    intro: req.body.intro,
+    img: req.body.intro
   });
   await item.save();
   req.flash('success', 'Successfully posted');

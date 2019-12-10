@@ -54,7 +54,7 @@ block content
       .d-flex.justify-content-around
         each item in items.docs
           .p-2.bd-highlight.text-center.card.card-image
-            img.card-img-top(src="...",alt="...")
+            img.card-img-top(src=item.img,alt="item_img")
             .card-body
             h5.card-title= item.itemName
             a.btn.btn-primary(href=`/items/${item.id}`) more

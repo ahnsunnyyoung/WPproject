@@ -4,6 +4,35 @@ const Item = require('../models/item');
 const Comment = require('../models/review'); 
 const catchErrors = require('../lib/async-error');
 var router = express.Router();
+const uuidv4 = require('uuid/v4');
+
+const aws = require('aws-sdk');
+const S3_BUCKET = process.env.S3_BUCKET;
+console.log(S3_BUCKET);
+router.get('/s3',function(req,res,next){
+  const s3 = new aws.S3({region:'ap-northeast-2'});
+  const filename = `${uuidv4()}/${req.query.filename}`;
+  const type = req.query.type;
+  const params = {
+    Bucket: S3_BUCKET,
+    Key: filename,
+    Expires: 900,
+    ContentType: type,
+    ACL: 'public-read'
+  };
+  console.log(params);
+  s3.getSignedUrl('putObject',params,function(err,data){
+    if(err){
+      console.log(err);
+      return res.json({err:err});
+    }
+    console.log("RESULT=", data);
+    res.json({
+      signedRequest: data,
+      url: `https://${S3_BUCKET}.s3.amazonaws.com/${filename}`
+    });
+  });
+});
 
 
 /* GET boards listing. */
