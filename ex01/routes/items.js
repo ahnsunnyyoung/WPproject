@@ -62,7 +62,7 @@ router.post('/', needAuth, catchErrors(async (req, res, next) => {
     itemName: req.body.itemName,
     price: req.body.price,
     intro: req.body.intro,
-    img: req.body.intro
+    img: req.body.img
   });
   await item.save();
   req.flash('success', 'Successfully posted');
