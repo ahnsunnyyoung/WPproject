@@ -115,6 +115,7 @@ router.post('/reserve/:id', needAuth, catchErrors(async (req, res, next) => {
   const item = await Item.findById(req.params.id);
   var reservation = new Reservation({
     itemNo: req.params.id,
+    itemName: item.itemName,
     cNo: item.cNo,
     perNum: req.body.perNum
   });

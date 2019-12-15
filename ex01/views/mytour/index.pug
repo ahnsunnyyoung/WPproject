@@ -2,28 +2,18 @@ extends ../layout
 
 block content
   .container
-    br
-    br
-    .d-flex.justify-content-left
-      .p-2.bd-highlight.text-left.main-item-show
-        h2.card-title=item.itemName
-      
-        hr
-
-        .item.show
-          if item.img
-            img.img-fluid(src=item.img)
-
-        hr
-
-        #{moment(item.startDay).format('YYYY년MM월DD')} 부터
-        #{moment(item.endDay).format('YYYY년MM월DD일')} 까지    
-
-        h5.card-text=item.intro
-
-
-        br
-        .buttons
-          a.btn.btn-outline-secondary(href=`/items/${item.id}/edit`) Edit
-          | 
-          a.btn.btn-outline-danger.delete-btn(href="#", data-url=`/items/${item.id}?_method=delete`) Delete
+    h1.main-title MyTours
+    
+    table.table.table-hover
+      thead
+        tr
+          th Tour Name
+          th
+      tbody
+        each i in reservations
+          tr
+            td
+              a(href=`/items/${reservations.itemNo}`)= i.itemName
+            td
+              a.btn.btn-sm.btn-outline-danger(href=`/item/reserve/${i._id}?_method=DELETE`)
+                | #[i.fa.fa-trash] Delete

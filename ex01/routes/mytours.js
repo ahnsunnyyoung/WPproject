@@ -19,17 +19,17 @@ function needAuth(req, res, next) {
 
 
 /* GET users listing. */
-router.get('/', needAuth, (req, res, next) => {
-    User.find({}, function(err, users) {
-      if (err) {
-        return next(err);
-      }
-      console.log("err", err);
-      console.log(users);
-      
-      res.render('mytour/index', {users: users});
-    }); // TODO: pagination?
-  });
+router.get('/', needAuth,  (req, res, next) => {
+  const user = req.session.user;
+  Reservation.find({cNo: user._id}, function(err, reservations) {
+    if (err) {
+      return next(err);
+    }
+    console.log("user"+user.name);  
+    console.log("reservations"+reservations);  
+    res.render('mytour/index', {user: user, reservations: reservations});
+  }); // TODO: pagination?
+});
   
 //   router.get('/new', (req, res, next) => {
 //     console.log(req.params);
@@ -82,15 +82,15 @@ router.get('/', needAuth, (req, res, next) => {
 //     });
 //   });
   
-//   router.delete('/:id', needAuth, (req, res, next) => {
-//     User.findOneAndRemove({_id: req.params.id}, function(err) {
-//       if (err) {
-//         return next(err);
-//       }
-//       req.flash('success', 'Deleted Successfully.');
-//       res.redirect('/users');
-//     });
-//   });
+  router.delete('/:id', needAuth, (req, res, next) => {
+    Reservation.findOneAndRemove({_id: req.params.id}, function(err) {
+      if (err) {
+        return next(err);
+      }
+      req.flash('success', 'Deleted Successfully.');
+      res.redirect('/users');
+    });
+  });
   
 //   router.get('/:id', (req, res, next) => {
 //     User.findById(req.params.id, function(err, user) {
