@@ -64,9 +64,11 @@ block content
             a.btn.btn-primary(href=`/items/${item.id}`) more
 
       +paginate(items, '/', query)
-
-   
-    a.btn.btn-primary(href='/items/new') New Item
+    
+    //-타입이 0(개발자) 또는 1(가이드)일 경우 버튼 열기
+    if(currentUser)
+      if currentUser.type==0 || currentUser.type==1
+        a.btn.btn-primary(href='/items/new') New Item
     hr
     
 

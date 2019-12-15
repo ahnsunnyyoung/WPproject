@@ -9,11 +9,14 @@ var session = require('express-session');
 var methodOverride = require('method-override');
 var flash = require('connect-flash');
 var mongoose   = require('mongoose');
+var passport = require('passport');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
 var items = require('./routes/items');
 var mytours = require('./routes/mytours');
+
+var passportConfig = require('./lib/passport-config');
 
 var app = express();
 
@@ -65,10 +68,18 @@ app.use(session({
   secret: 'long-long-long-secret-string-1313513tefgwdsvbjkvasd'
 }));
 
+
 app.use(flash()); // flash message를 사용할 수 있도록
 
 // public 디렉토리에 있는 내용은 static하게 service하도록.
 app.use(express.static(path.join(__dirname, 'public')));
+
+//=======================================================
+// Passport 초기화
+//=======================================================
+app.use(passport.initialize());
+app.use(passport.session());
+passportConfig(passport);
 
 // pug의 local에 현재 사용자 정보와 flash 메시지를 전달하자.
 app.use(function(req, res, next) {
@@ -82,6 +93,7 @@ app.use('/', index);
 app.use('/users', users);
 app.use('/items', items);
 app.use('/mytours', mytours);
+require('./routes/auth')(app, passport);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
