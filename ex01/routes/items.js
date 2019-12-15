@@ -1,7 +1,7 @@
 const express = require('express');
 const Item = require('../models/item');
 const Reservation = require('../models/reservation');
-// const User = require('../models/user'); 
+const User = require('../models/user'); 
 const Review = require('../models/review'); 
 const catchErrors = require('../lib/async-error');
 const router = express.Router();
@@ -111,15 +111,18 @@ router.get('/reserve/:id', needAuth, catchErrors(async (req, res, next) => {
   res.render('reservations/index', {item: item, reservation: {}});
 }));
 
-router.post('/reserve', needAuth, catchErrors(async (req, res, next) => {
+router.post('/reserve/:id', needAuth, catchErrors(async (req, res, next) => {
+  const item = await Item.findById(req.params.id);
   var reservation = new Reservation({
     itemNo: req.params.id,
     cNo: item.cNo,
     perNum: req.body.perNum
   });
   await reservation.save();  
-
-  res.redirect('reservations/finish', {reservation: reservation});
+  console.log(reservation.cNo);
+  const user = await User.findById(reservation.cNo);
+  console.log(user.name);
+  res.render('reservations/finish', {reservation: reservation, user: user, item: item});
 }));
 
 
