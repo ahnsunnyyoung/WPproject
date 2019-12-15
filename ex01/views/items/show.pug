@@ -2,7 +2,7 @@ extends ../layout
 
 block content
   .container
-    .d-flex.justify-content-center
+    .d-flex.justify-content-left
       .p-2.bd-highlight.text-left.main-item-show
         h2.card-title=item.itemName
       
@@ -29,7 +29,7 @@ block content
 
 
 
-      .p-2.bd-highlight.text-left.card.card-image.position-fixed.price-item-show
+      .p-2.bd-highlight.text-left.card.card-image.fix
         h3.card-body.card-title=item.price + '원'
         a.btn.btn-primary(href='#') 예약하기
         br

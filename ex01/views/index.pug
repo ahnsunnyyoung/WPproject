@@ -53,12 +53,15 @@ block content
     else
       .d-flex.justify-content-around
         each item in items.docs
-          .p-2.bd-highlight.text-center.card.card-image
+          .p-2.bd-highlight.text-center.card.card-image.card-size
             img.card-img-top(src=item.img,alt="item_img")
             .card-body
             h5.card-title= item.itemName
+            .row
+              .col-sm
+                .numbers.
+                  #[span.number.num-votes= item.price] 원
             a.btn.btn-primary(href=`/items/${item.id}`) more
-            include items/_item
 
       +paginate(items, '/', query)
 

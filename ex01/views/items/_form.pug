@@ -5,8 +5,20 @@
   label(for="price") Price
   input.form-control(type="number", name="price", placeholder="Put your item price.", value=item.price)
 .form-group
+  label(for="city") City
+  input.form-control(type="text", name="city", placeholder="Put your item city.", value=item.city)
+.form-group
+  label(for="country") Country
+  input.form-control(type="text", name="country", placeholder="Put your item country.", value=item.country)
+.form-group
   label(for="intro") intro
   textarea.form-control(name="intro", rows="5")= item.intro
+.form-group
+  label(for="startDay") Start Date
+  input.form-control(type="date", name="startDay", placeholder="Put your item startDay.", value=item.startDay)
+.form-group
+  label(for="endDay") End Date
+  input.form-control(type="date", name="endDay", placeholder="Put your item endDay.", value=item.endDay)
 .fomr-group
   label(for="img") Image
   input#file.form-contro(type="file")
@@ -34,8 +46,6 @@
               success: function(){
                 $("#preview").attr("src",resp.url).show();
                 $("#url").val(resp.url);
-              }, error: function(a, b, c) {
-                console.log(a, b, c);
               }
             });
           });
