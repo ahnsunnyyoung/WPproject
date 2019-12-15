@@ -1,0 +1,31 @@
+extends ../layout
+
+block content
+  .container.text-center
+    br
+    br
+    h2.card-title=item.itemName
+    input#price.form-control(type="text", name="price", value=item.price)
+    br
+    .d-flex.justify-content-center
+      .p-2.bd-highlight.text-left.card.card-image
+        form(name="reserve", action="/items/reserve", method="POST")
+          .form-group
+            label(for="perNum") 인원 수
+            input#perNum.form-control(type="number", name="perNum", placeholder="인원 수를 선택하세요.", value=reservation.perNum)
+          .form-group
+            h5 가격
+            input.form-control(type="text", name="total", readonly)
+            script.
+              $(function(){
+                $("#price").hide();
+                $("#perNum").change(function(){
+                  var price = $("#price")[0].value;
+                  var perNum = $("#perNum")[0].value;
+                  console.log(perNum);
+                  reserve.total.value = price * perNum;
+                });
+              });
+
+
+        button.btn.btn-outline-primary(type="submit") 예약하기 

@@ -1,7 +1,8 @@
 const express = require('express');
 const Item = require('../models/item');
+const Reservation = require('../models/reservation');
 // const User = require('../models/user'); 
-const Comment = require('../models/review'); 
+const Review = require('../models/review'); 
 const catchErrors = require('../lib/async-error');
 const router = express.Router();
 
@@ -17,6 +18,7 @@ function needAuth(req, res, next) {
   }
 }
 
+
 router.get('/new', needAuth, (req, res, next) => {
   res.render('items/new', {item: {}});
 });
@@ -28,9 +30,9 @@ router.get('/:id/edit', needAuth, catchErrors(async (req, res, next) => {
 
 router.get('/:id', catchErrors(async (req, res, next) => {
   const item = await Item.findById(req.params.id);
-  const comments = await Comment.find({item: item.id});
+  const reviews = await Review.find({item: item.id});
   await item.save();
-  res.render('items/show', {item: item, comments: comments});
+  res.render('items/show', {item: item, reviews: reviews});
 }));
 
 router.put('/:id', catchErrors(async (req, res, next) => {
@@ -41,8 +43,12 @@ router.put('/:id', catchErrors(async (req, res, next) => {
     return res.redirect('back');
   }
   item.itemName = req.body.itemName;
-  item.price = req.bodey.price;
+  item.city = req.body.city;
+  item.country = req.body.country;
+  item.price = req.body.price;
   item.intro = req.body.intro;
+  item.startDay = req.body.startDay;
+  item.endDay = req.body.endDay;
   item.img = req.body.img;
 
   await item.save();
@@ -56,12 +62,19 @@ router.delete('/:id', needAuth, catchErrors(async (req, res, next) => {
   res.redirect('/');
 }));
 
+
+
 router.post('/', needAuth, catchErrors(async (req, res, next) => {
   const user = req.session.user;
   var item = new Item({
+    cNo: user._id,
     itemName: req.body.itemName,
+    city: req.body.city,
+    country: req.body.country,
     price: req.body.price,
     intro: req.body.intro,
+    startDay: req.body.startDay,
+    endDay: req.body.endDay,
     img: req.body.img
   });
   await item.save();
@@ -69,7 +82,7 @@ router.post('/', needAuth, catchErrors(async (req, res, next) => {
   res.redirect('/');
 }));
 
-router.post('/:id/comments', needAuth, catchErrors(async (req, res, next) => {
+router.post('/:id/reviews', needAuth, catchErrors(async (req, res, next) => {
   const user = req.session.user;
   const item = await Item.findById(req.params.id);
 
@@ -78,19 +91,36 @@ router.post('/:id/comments', needAuth, catchErrors(async (req, res, next) => {
     return res.redirect('back');
   }
 
-  var comment = new Comment({
+  var review = new Review({
     uid: user._id,
     item: item._id,
     content: req.body.content
   });
-  await comment.save();
-  item.numComments++;
+  await review.save();
+  item.numReviews++;
   await item.save();
 
-  req.flash('success', 'Successfully commented');
+  req.flash('success', 'Successfully reviewed');
   res.redirect(`/items/${req.params.id}`);
 }));
 
+
+//예약!
+router.get('/reserve/:id', needAuth, catchErrors(async (req, res, next) => {
+  const item = await Item.findById(req.params.id);
+  res.render('reservations/index', {item: item, reservation: {}});
+}));
+
+router.post('/reserve', needAuth, catchErrors(async (req, res, next) => {
+  var reservation = new Reservation({
+    itemNo: req.params.id,
+    cNo: item.cNo,
+    perNum: req.body.perNum
+  });
+  await reservation.save();  
+
+  res.redirect('reservations/finish', {reservation: reservation});
+}));
 
 
 module.exports = router;

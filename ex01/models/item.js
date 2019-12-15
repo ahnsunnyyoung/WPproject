@@ -4,7 +4,8 @@ var mongoose = require('mongoose'),
 
 
 var schema = new Schema({
-  cityName: { type: String, trim: true, required: true},
+  cNo: { type: Schema.Types.ObjectId, ref: 'User' },
+  city: { type: String, trim: true},
   country: { type: String, trim: true, required: true},
   itemName: { type: String, trim: true, required: true},
   intro: {type: String, trim: true, required: true},

@@ -26,3 +26,13 @@
   width: 300px;
   height: 400px;
 }
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  color: rgba(0, 0, 0, 0); //숨긴다
+  opacity: 1;
+  display: block;
+  background: url(https://mywildalberta.ca/images/GFX-MWA-Parks-Reservations.png) no-repeat; // 대체할 아이콘
+  width: 20px;
+  height: 20px;
+  border-width: thin;
+}

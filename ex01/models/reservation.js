@@ -3,7 +3,6 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
 var schema = new Schema({
-  reservNo: { type: Number, required: true},
   itemNo: { type: Schema.Types.ObjectId,  ref: 'Item'},
   cNo: { type: Schema.Types.ObjectId,  ref: 'User'},
   perNum: {type: Number, required: true}

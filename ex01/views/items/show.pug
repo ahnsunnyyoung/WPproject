@@ -2,6 +2,8 @@ extends ../layout
 
 block content
   .container
+    br
+    br
     .d-flex.justify-content-left
       .p-2.bd-highlight.text-left.main-item-show
         h2.card-title=item.itemName
@@ -12,8 +14,15 @@ block content
           if item.img
             img.img-fluid(src=item.img)
 
-        h4.card-text=item.intro
+        hr
 
+        #{moment(item.startDay).format('YYYY년MM월DD')} 부터
+        #{moment(item.endDay).format('YYYY년MM월DD일')} 까지    
+
+        h5.card-text=item.intro
+
+
+        br
         .buttons
           a.btn.btn-outline-secondary(href=`/items/${item.id}/edit`) Edit
           | 
@@ -31,7 +40,7 @@ block content
 
       .p-2.bd-highlight.text-left.card.card-image.fix
         h3.card-body.card-title=item.price + '원'
-        a.btn.btn-primary(href='#') 예약하기
+        a.btn.btn-primary(href=`reserve/${item._id}`) 예약하기
         br
         a.btn.btn-light(href='#') 위시리스트에 담기
         .d-flex.justify-content-center
