@@ -55,6 +55,7 @@ router.get('/', catchErrors(async (req, res, next) => {
   }
   const items = await Item.paginate(query, {
     sort: {createdAt: -1}, 
+    populate: 'cNo', 
     page: page, limit: limit
   });
   res.render('index', {items: items, query: req.query});
