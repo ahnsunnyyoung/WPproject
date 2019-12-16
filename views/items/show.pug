@@ -3,9 +3,19 @@ extends ../layout
 block content
   .container
     br
-    br
     .d-flex.justify-content-left
       .p-2.bd-highlight.text-left.main-item-show
+        .row
+          .col-sm
+            .numbers.
+               #[span.number.num-views= item.numReads] reads
+      
+               
+        if(item.city)
+          h5.card-text=item.country+">"+item.city
+        else
+          h5.card-text=item.country
+        
         h2.card-title=item.itemName
       
         hr
@@ -13,22 +23,30 @@ block content
         .item.show
           if item.img
             img.img-fluid(src=item.img)
+        #{moment(item.startDay).format('YYYY년MM월DD')} 부터
+        #{moment(item.endDay).format('YYYY년MM월DD일')} 까지   
 
         hr
-
-        #{moment(item.startDay).format('YYYY년MM월DD')} 부터
-        #{moment(item.endDay).format('YYYY년MM월DD일')} 까지    
-
+         
+        br
+        h3.card-title Intro
         h5.card-text=item.intro
 
 
         br
+        br
+        br
+
         if(currentUser)
           if item.cNo == currentUser._id
             .buttons
               a.btn.btn-outline-secondary(href=`/items/${item.id}/edit`) Edit
               | 
-              a.btn.btn-outline-danger.delete-btn(href="#", data-url=`/items/${item.id}?_method=delete`) Delete
+              a.btn.btn-outline-danger.delete-btn(href="#", data-url=`/items/${item.id}?_method=delete`) Delete 
+        br
+        br
+        hr
+        
 
         if item.numReviews > 0
           hr

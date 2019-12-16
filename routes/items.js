@@ -36,7 +36,7 @@ router.get('/:id', catchErrors(async (req, res, next) => {
   res.render('items/show', {item: item, reviews: reviews});
 }));
 
-router.put('/:id', catchErrors(async (req, res, next) => {
+router.post('/:id', catchErrors(async (req, res, next) => {
   const item = await Item.findById(req.params.id);
 
   if (!item) {
@@ -109,6 +109,7 @@ router.post('/:id/reviews', needAuth, catchErrors(async (req, res, next) => {
 
 //예약!
 router.delete('/reserve/:id', needAuth, catchErrors(async (req, res, next) => {
+  console.log("in");
   await Reservation.findOneAndRemove({_id: req.params.id});
   req.flash('success', 'Successfully deleted');
   res.redirect('/');
