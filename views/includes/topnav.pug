@@ -11,6 +11,10 @@
         ul.navbar-nav
           li.nav-item
             a.nav-link(href="/mytours") MyTour
+          if (currentUser) 
+            if (currentUser.type==0) 
+              li.nav-item
+                a.nav-link(href='/users') Users
 
           if (!currentUser) 
             li.nav-item

@@ -23,7 +23,7 @@ block content
 
     hr
     if(currentUser)
-      if currentUser._id == user._id
+      if currentUser._id == user._id || currentUser.type == 0
         p
           a.btn.btn-outline-primary(href=`/users/${user._id}/edit`) 회원 정보 수정
           | 
