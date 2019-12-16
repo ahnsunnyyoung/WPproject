@@ -72,9 +72,7 @@ router.post('/signin', catchErrors(async (req, res, next) => {
   const user = await User.findOne({email: req.body.email});
   console.log("user", user);
   if (await user.validatePassword(password)) {
-    console.log("true!!!!!!!!!!11");
     req.session.user = user;
-    console.log("in");
     req.flash('success', 'Welcome!');
     res.redirect('/');
   } else {

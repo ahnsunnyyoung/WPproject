@@ -7,4 +7,4 @@
       | reviewed on #{moment(review.createdAt).format('YYYY-MM-DD')}
       if review.cNo
         | 
-        | by #[a(href=`/users/${review.cNo}`)= review.cNo]
+        | by #[a(href=`/users/${review.cNo}`)= review.name]

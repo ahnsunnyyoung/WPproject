@@ -94,6 +94,7 @@ router.post('/:id/reviews', needAuth, catchErrors(async (req, res, next) => {
 
   var review = new Review({
     cNo: user._id,
+    name: user.name,
     itemNo: item._id,
     content: req.body.content
   });

@@ -4,6 +4,7 @@ var mongoose = require('mongoose'),
 
 var schema = new Schema({
   cNo: { type: Schema.Types.ObjectId, ref: 'User' },
+  name: {type: String, trim: true, required: true},
   itemNo: { type: Schema.Types.ObjectId, ref: 'Item' },
   content: {type: String, trim: true, required: true},
   createdAt: {type: Date, default: Date.now}
