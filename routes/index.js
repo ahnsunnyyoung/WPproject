@@ -6,12 +6,12 @@ var router = express.Router();
 const uuidv4 = require('uuid/v4');
 
 
-// let AWS_ACCESS_KEY_ID = AKIA3GTUUVOPEKXCVN56;
-// let AWS_SECRET_ACCESS_KEY = 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;
-// let S3_BUCKET = tuon-img;
+// set AWS_ACCESS_KEY_ID=AKIA3GTUUVOPEKXCVN56;
+// set AWS_SECRET_ACCESS_KEY=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;
+// set S3_BUCKET=tuon-img;
 const aws = require('aws-sdk');
 const S3_BUCKET = process.env.S3_BUCKET;
-console.log(S3_BUCKET);
+console.log(process.env.AWS_ACCESS_KEY_ID, S3_BUCKET);
 router.get('/s3',function(req,res,next){
   const s3 = new aws.S3({region:'ap-northeast-2'});
   const filename = `${uuidv4()}/${req.query.filename}`;
