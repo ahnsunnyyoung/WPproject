@@ -62,7 +62,7 @@ router.get('/:id/edit', needAuth, catchErrors(async (req, res, next) => {
   res.render('users/edit', {user: user});
 }));
 
-router.put('/:id', needAuth, catchErrors(async (req, res, next) => {
+router.post('/:id', needAuth, catchErrors(async (req, res, next) => {
   const err = validateForm(req.body);
   if (err) {
     req.flash('danger', err);
@@ -87,7 +87,7 @@ router.put('/:id', needAuth, catchErrors(async (req, res, next) => {
   }
   await user.save();
   req.flash('success', 'Updated successfully.');
-  res.redirect('/users');
+  res.render('users/show',{user: user});
 }));
 
 router.delete('/:id', needAuth, catchErrors(async (req, res, next) => {
