@@ -6,9 +6,7 @@ var router = express.Router();
 const uuidv4 = require('uuid/v4');
 
 
-// set AWS_ACCESS_KEY_ID=AKIA3GTUUVOPEKXCVN56;
-// set AWS_SECRET_ACCESS_KEY=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;
-// set S3_BUCKET=tuon-img;
+
 const aws = require('aws-sdk');
 const S3_BUCKET = process.env.S3_BUCKET;
 console.log(process.env.AWS_ACCESS_KEY_ID, S3_BUCKET);
