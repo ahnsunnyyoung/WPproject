@@ -30,7 +30,7 @@ router.get('/:id/edit', needAuth, catchErrors(async (req, res, next) => {
 
 router.get('/:id', catchErrors(async (req, res, next) => {
   const item = await Item.findById(req.params.id);
-  const reviews = await Review.find({item: item._id});
+  const reviews = await Review.find({itemNo: req.params.id});
   item.numReads++;    // TODO: 동일한 사람이 본 경우에 Read가 증가하지 않도록???
   await item.save();
   res.render('items/show', {item: item, reviews: reviews});
