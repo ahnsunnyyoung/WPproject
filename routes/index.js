@@ -1,7 +1,6 @@
-var express = require('express'),
-User = require('../models/user');
+var express = require('express');
+const User = require('../models/user');
 const Item = require('../models/item');
-const Comment = require('../models/review'); 
 const catchErrors = require('../lib/async-error');
 var router = express.Router();
 const uuidv4 = require('uuid/v4');
@@ -12,6 +11,7 @@ const uuidv4 = require('uuid/v4');
 //S3_BUCKET=tuon-img
 const aws = require('aws-sdk');
 const S3_BUCKET = process.env.S3_BUCKET;
+console.log(S3_BUCKET);
 router.get('/s3',function(req,res,next){
   const s3 = new aws.S3({region:'ap-northeast-2'});
   const filename = `${uuidv4()}/${req.query.filename}`;
@@ -61,31 +61,33 @@ router.get('/', catchErrors(async (req, res, next) => {
   res.render('index', {items: items, query: req.query, user: user});
 }));
 
-// router.get('/signin', function(req, res, next) {
-//   res.render('signin');
-// });
+router.get('/signin', function(req, res, next) {
+  res.render('signin');
+});
 
-// // 09-1. Session 참고: 세션을 이용한 로그인
-// router.post('/signin', function(req, res, next) {
-//   User.findOne({email: req.body.email}, function(err, user) {
-//     if (err) {
-//       res.render('error', {message: "Error", error: err});
-//     } else if (!user || user.password !== req.body.password) {
-//       req.flash('danger', 'Invalid username or password.');
-//       res.redirect('back');
-//     } else {
-//       req.session.user = user;
-//       req.flash('success', 'Welcome!');
-//       res.redirect('/');
-//     }
-//   });
-// });
+// 09-1. Session 참고: 세션을 이용한 로그인
+router.post('/signin', catchErrors(async (req, res, next) => {
+  const password = req.body.password;
+  console.log(req.body.email);
+  const user = await User.findOne({email: req.body.email});
+  console.log("user", user);
+  if (await user.validatePassword(password)) {
+    console.log("true!!!!!!!!!!11");
+    req.session.user = user;
+    console.log("in");
+    req.flash('success', 'Welcome!');
+    res.redirect('/');
+  } else {
+    req.flash('danger', 'Invalid username or password.');
+    res.redirect('back');
+  }
+}));
 
-// router.get('/signout', function(req, res, next) {
-//   delete req.session.user;
-//   req.flash('success', 'Successfully signed out.');
-//   res.redirect('/');
-// });
+router.get('/signout', function(req, res, next) {
+  delete req.session.user;
+  req.flash('success', 'Successfully signed out.');
+  res.redirect('/');
+});
 
 
 module.exports = router;

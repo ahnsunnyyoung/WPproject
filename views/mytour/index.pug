@@ -10,10 +10,16 @@ block content
           th Tour Name
           th
       tbody
-        each i in reservations
+        if reservations.total <= 0 
           tr
             td
-              a(href=`/items/${reservations.itemNo}`)= i.itemName
-            td
-              a.btn.btn-sm.btn-outline-danger(href=`/item/reserve/${i._id}?_method=DELETE`)
-                | #[i.fa.fa-trash] Delete
+              h3=reservations.total
+              .alert.alert-info 예약 내역이 없습니다
+        else
+          each i in reservations
+            tr
+              td
+                a(href=`/items/${i.itemNo}`)= i.itemName
+              td
+                a.btn.btn-sm.btn-outline-danger(href=`/item/reserve/${i.id}?_method=DELETE`)
+                  | #[i.fa.fa-trash] Delete

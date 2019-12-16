@@ -10,7 +10,7 @@ const router = express.Router();
 
 // 동일한 코드가 users.js에도 있습니다. 이것은 나중에 수정합시다.
 function needAuth(req, res, next) {
-  if (req.isAuthenticated()) {
+  if (req.session.user) {
     next();
   } else {
     req.flash('danger', 'Please signin first.');
@@ -30,7 +30,8 @@ router.get('/:id/edit', needAuth, catchErrors(async (req, res, next) => {
 
 router.get('/:id', catchErrors(async (req, res, next) => {
   const item = await Item.findById(req.params.id);
-  const reviews = await Review.find({item: item.id});
+  const reviews = await Review.find({item: item._id});
+  item.numReads++;    // TODO: 동일한 사람이 본 경우에 Read가 증가하지 않도록???
   await item.save();
   res.render('items/show', {item: item, reviews: reviews});
 }));
@@ -92,8 +93,8 @@ router.post('/:id/reviews', needAuth, catchErrors(async (req, res, next) => {
   }
 
   var review = new Review({
-    uid: user._id,
-    item: item._id,
+    cNo: user._id,
+    itemNo: item._id,
     content: req.body.content
   });
   await review.save();
@@ -106,6 +107,12 @@ router.post('/:id/reviews', needAuth, catchErrors(async (req, res, next) => {
 
 
 //예약!
+router.delete('/reserve/:id', needAuth, catchErrors(async (req, res, next) => {
+  await Reservation.findOneAndRemove({_id: req.params.id});
+  req.flash('success', 'Successfully deleted');
+  res.redirect('/');
+}));
+
 router.get('/reserve/:id', needAuth, catchErrors(async (req, res, next) => {
   const item = await Item.findById(req.params.id);
   res.render('reservations/index', {item: item, reservation: {}});
@@ -116,13 +123,12 @@ router.post('/reserve/:id', needAuth, catchErrors(async (req, res, next) => {
   var reservation = new Reservation({
     itemNo: req.params.id,
     itemName: item.itemName,
-    cNo: item.cNo,
+    cNo: req.session.user,
     perNum: req.body.perNum
   });
   await reservation.save();  
   console.log(reservation.cNo);
   const user = await User.findById(reservation.cNo);
-  console.log(user.name);
   res.render('reservations/finish', {reservation: reservation, user: user, item: item});
 }));
 

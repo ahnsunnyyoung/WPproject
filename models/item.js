@@ -11,6 +11,7 @@ var schema = new Schema({
   intro: {type: String, trim: true, required: true},
   price: {type: Number, default: 0},
   numReads: {type: Number, default: 0},
+  numReviews: {type: Number, default: 0},
   status: {type: Number, default: 0},
   startDay: {type: Date, default: Date.now},
   endDay: {type: Date, default: Date.now},

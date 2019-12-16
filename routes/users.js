@@ -4,7 +4,7 @@ const router = express.Router();
 const catchErrors = require('../lib/async-error');
 
 function needAuth(req, res, next) {
-  if (req.isAuthenticated()) {
+  if (req.session.user) {
     next();
   } else {
     req.flash('danger', 'Please signin first.');
